@@ -9,22 +9,17 @@ $(function () { // Same as document.addEventListener("DOMContentLoaded"...
   });
 });
 
-$("#navbarToggle").click(function (event) {
-  $(event.target).focus();
-});
- 
-
-
 (function (global) {
 
 var dc = {};
 
 var homeHtmlUrl = "snippets/home-snippet.html";
 var allCategoriesUrl =
-  "https://coursera-jhu-default-rtdb.firebaseio.com/categories.json";
+  "https://davids-restaurant.herokuapp.com/categories.json";
 var categoriesTitleHtml = "snippets/categories-title-snippet.html";
 var categoryHtml = "snippets/category-snippet.html";
- 
+var menuItemsUrl =
+  "https://coursera-jhu-default-rtdb.firebaseio.com/menu_items/";
 var menuItemsTitleHtml = "snippets/menu-items-title.html";
 var menuItemHtml = "snippets/menu-item.html";
 
@@ -64,31 +59,6 @@ var switchMenuToActive = function () {
     document.querySelector("#navMenuButton").className = classes;
   }
 };
-
-
-//=============================Main page====================================//
-
-
-function chooseRandomCategory (categories) {
-  var randomArrayIndex = Math.floor(Math.random() * categories.length);
-  return categories[randomArrayIndex];
-}
-
-function buildAndShowHomeHTML (categories) {
-  $ajaxUtils.sendGetRequest(
-    homeHtmlUrl,
-    function (homeHtml) {
-     var chosenCategoryShortName = chooseRandomCategory (categories).short_name;
-     var homeHtmlToInsertIntoMainPage = insertProperty(homeHtml, "randomCategoryShortName", "'" + chosenCategoryShortName + "'");
-     insertHtml("#main-content", homeHtmlToInsertIntoMainPage);
-    },
-    false); 
-}
-
-
-
-
-
 
 // On page load (before images or CSS)
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -351,7 +321,7 @@ function insertItemPrice(html,
     return insertProperty(html, pricePropName, "");
   }
 
-  priceValue = "LE " + priceValue.toFixed(2);
+  priceValue = "$" + priceValue.toFixed(2);
   html = insertProperty(html, pricePropName, priceValue);
   return html;
 }
